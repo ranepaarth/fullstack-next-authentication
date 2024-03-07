@@ -1,18 +1,28 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+
 type Data = {
   email: string;
   password: string;
 };
 
+type Result = {
+  success: boolean;
+  message: string;
+};
+
 const LoginPage = () => {
+  const router = useRouter();
+  const [result, setResult] = useState<Result>();
   const {
     handleSubmit,
     register,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<Data>({
     defaultValues: {
       email: "",
@@ -20,10 +30,25 @@ const LoginPage = () => {
     },
   });
 
-  function onFormSubmit(data: Data) {
-    console.log(data);
-    reset();
-    return data;
+  async function onFormSubmit(data: Data) {
+    try {
+      // toast.promise()
+      const response = await fetch("/api/users/login", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+
+      const json = await response.json();
+      // console.log({json})
+      if (json?.success) router.push("/");
+      setResult(json);
+    } catch (error: any) {
+      console.log("Login failed", error);
+      toast.error(error.message);
+    }
   }
   return (
     <div className="w-full h-fit grid place-items-center">
@@ -64,9 +89,16 @@ const LoginPage = () => {
             ""
           )}
         </div>
+        {isSubmitting ? "Loading..." : ""}
 
         {errors?.root?.message ? (
           <p className="text-red-500">{errors?.root?.message}</p>
+        ) : (
+          ""
+        )}
+
+        {!result?.success ? (
+          <p className="text-red-500">{result?.message}</p>
         ) : (
           ""
         )}
