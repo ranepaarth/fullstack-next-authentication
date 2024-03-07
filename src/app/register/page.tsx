@@ -2,8 +2,9 @@
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 type Data = {
-  name:string,
+  username: string;
   email: string;
   password: string;
 };
@@ -13,39 +14,66 @@ const RegisterPage = () => {
     handleSubmit,
     register,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<Data>({
     defaultValues: {
-      name:"",
+      username: "",
       email: "",
       password: "",
     },
   });
 
-  function onFormSubmit(data: Data) {
-    console.log(data);
-    reset();
-    return data;
+  async function onFormSubmit(data: Data) {
+    try {
+      console.log(data);
+      const response = await fetch("/api/users/register", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      const result = await response.json();
+      if (result.username) {
+        // router.push('/login')
+        toast.success("User created successfully");
+      }
+      console.log(result);
+      reset();
+    } catch (error: any) {
+      toast.error(error?.message);
+      console.log("Register failed", error.message);
+    }
   }
+
   return (
     <div className="w-full h-fit grid place-items-center">
       <h1 className="text-2xl font-bold">Create your account</h1>
+      {isSubmitting ? "Loading..." : ""}
+
       <form
         onSubmit={handleSubmit(onFormSubmit)}
-        className="mt-10 w-full max-w-[550px] flex flex-col gap-y-6"
+        className="mt-4 w-full max-w-[550px] flex flex-col gap-y-6"
       >
         <div className="flex flex-col gap-1">
+          {isSubmitSuccessful ? (
+            <p className="my-2 text-sm place-self-start">
+              Account created successfully <Link href={"/login"} className="text-base py-1 px-2 font-semibold bg-blue-500  rounded-md hover:bg-blue-600">Login</Link>
+            </p>
+          ) : (
+            ""
+          )}
           <input
             type="text"
             className="bg-neutral-300 rounded-md focus:outline focus:outline-offset-2 focus:outline-blue-500 px-4 py-2 caret-blue-800 text-blue-700 w-full"
             placeholder="Name"
             autoFocus
-            {...register("name", {
+            {...register("username", {
               required: "Name cannot be empty.",
             })}
           />
-          {errors?.name ? (
-            <p className="text-red-500 text-xs">{errors?.name?.message}</p>
+          {errors?.username ? (
+            <p className="text-red-500 text-xs">{errors?.username?.message}</p>
           ) : (
             ""
           )}
