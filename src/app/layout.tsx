@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Navbar />
-        <main className="w-full min-h-[calc(100dvh-56px)]">{children}</main>
+        <Toaster position="top-center"/>
+        <main className="w-full min-h-[calc(100dvh-56px)] flex justify-center py-4 px-8">
+          {children}
+        </main>
       </body>
     </html>
   );
