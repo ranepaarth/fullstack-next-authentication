@@ -10,7 +10,7 @@ type Data = {
   password: string;
 };
 
-type Result = {
+export type Result = {
   success: boolean;
   message: string;
 };
