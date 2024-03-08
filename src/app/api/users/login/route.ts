@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       expiresIn: "1d",
     });
 
-    const response =  NextResponse.json(
+    const response = NextResponse.json(
       {
         success: true,
         message: "Logged in successfully",
@@ -54,13 +54,13 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
 
-    response.cookies.set("token",token,{
-        httpOnly:true,
-        secure:true,
-        maxAge:7*24*60*60*1000
-    })
+    response.cookies.set(process.env.COOKIE_NAME!, token, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
-    return response
+    return response;
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
