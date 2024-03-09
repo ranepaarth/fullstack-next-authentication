@@ -1,22 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# A Full-Stack NextJs Authentication application
+
+This is a [Next.js](https://nextjs.org/) and  [MongoDB](https://www.mongodb.com/atlas/database) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
+
+
+## Description
+
+A fullstack NextJs authentication application with MongoDB for the database service. It helped me to get started with NextJs.
+
+## Concepts covered:
+- [x] NextJs Routing
+- [x] Rest API
+- [x] Cookies
+- [x] NextJs Middleware
+- [x] Protecting Routes
+
 
 ## Getting Started
 
-First, run the development server:
+Before starting the server setup your own environment variables within the `.env.local` file in the root of your project with the help of `.env.sample` file provided in the source code
+
+
+### Install Packages
+
+**Note**: I am using the `npm (node package manager)` in order to download and manage all the dependencies
+
+Inside your project's root terminal runt the following command to install all the required dependencies
+```bash
+npm instal 
+# or 
+npm i
+```
+
+### Setting up `.env.local`
+
+- Register setup your [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register) account by following the necessary [Steps](https://www.mongodb.com/docs/atlas/getting-started/)
+
+- Assign your MongoDB Atlas cluster connection link to the `MONGODB_URI` env variable inside your `.env.local` file.
+
+- Assign a `JWT_SECRET` inside your `.env.local` file. This will be used to verify and sign your **JSON Web Tokens**
+
+- Assign a `COOKIE_NAME` inside your `.env.local` file. This will be used as a key when you will set your own cookies.
+
+- Assign a `DOMAIN` within your `.env.local` file. This will be used after deploying the project on [vercel](https://vercel.com/)
+
+### Running the Development Server
+
+After installing the packages and setting up your `.env.local` environment file, now its time run the development server:
+
+
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
