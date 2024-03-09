@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
 
     response.cookies.set(process.env.COOKIE_NAME!, "", {
       httpOnly: true,
+      secure:true,
       expires: new Date(0),
     });
 
