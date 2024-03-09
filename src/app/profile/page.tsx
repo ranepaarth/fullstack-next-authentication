@@ -2,18 +2,18 @@
 import React, { useEffect, useState } from "react";
 
 type User = {
-  _id: String;
-  username: String;
-  email: String;
-  isAdmin: Boolean;
-  createdAt: String;
-  updatedAt: String;
+  _id: string;
+  username: string;
+  email: string;
+  isAdmin: boolean;
+  createdAt: string;
+  updatedAt: string;
 };
 
 type Data = {
-  error?: String;
-  message: String;
-  success: Boolean;
+  error?: string;
+  message: string;
+  success: boolean;
   user: User;
 };
 
@@ -30,7 +30,7 @@ const ProfilePage = () => {
       }
     };
     getUser();
-  }, [user]);
+  }, []);
 
   console.log(user);
 
